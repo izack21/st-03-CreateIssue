@@ -18,7 +18,10 @@ public class Ct02CreateIssueTest {
   private IWebDriver driver;
   public IDictionary<string, object> vars {get; private set;}
   private IJavaScriptExecutor js;
-  [SetUp]
+  public string username = ""; //Variavel de preenchimento obrigatório para o teste.
+  public string pass = ""; //Variavel de preenchimento obrigatório para o teste.
+  public string project = ""; //Preencha com um projeto com acesso valido ex.:"Izack Rodrigues´s project"
+    [SetUp]
   public void SetUp() {
     driver = new ChromeDriver();
     js = (IJavaScriptExecutor)driver;
@@ -31,15 +34,15 @@ public class Ct02CreateIssueTest {
   [Test]
   public void ct02CreateIssue() {
     driver.Navigate().GoToUrl("https://mantis-prova.base2.com.br/login_page.php");
-    driver.FindElement(By.Name("username")).SendKeys("izack.rodrigues");
-    driver.FindElement(By.Name("password")).SendKeys("Teste@19");
+    driver.FindElement(By.Name("username")).SendKeys(username);
+    driver.FindElement(By.Name("password")).SendKeys(pass);
     driver.FindElement(By.CssSelector(".button")).Click();
     driver.FindElement(By.CssSelector(".hide:nth-child(1) tr:nth-child(1) > td:nth-child(2)")).Click();
     driver.FindElement(By.LinkText("Report Issue")).Click();
     driver.FindElement(By.CssSelector("td > select")).Click();
     {
       var dropdown = driver.FindElement(By.CssSelector("td > select"));
-      dropdown.FindElement(By.XPath("//option[. = 'Izack Rodrigues´s project']")).Click();
+      dropdown.FindElement(By.XPath("//option[. = '" +project + "']")).Click();
     }
     driver.FindElement(By.CssSelector("td > select")).Click();
     driver.FindElement(By.CssSelector(".button")).Click();
